@@ -1,0 +1,20 @@
+---
+  - name: Configuração para Master
+    ansible.builtin.lineinfile:
+      state: present
+      dest: /etc/keepalived/keepalived.conf
+      regexp: "^    state SLAVE"
+      line: "    state MASTER"
+
+  - name: Configuração para Master
+    ansible.builtin.lineinfile:
+      state: present
+      dest: /etc/keepalived/keepalived.conf
+      regexp: "^    priority 50"
+      line: "    priority 100"
+  
+  - name: Habilita e Reinicia Serviço KeepAlived
+    ansible.builtin.systemd:
+      name: keepalived
+      enabled: true
+      state: restarted

@@ -1,0 +1,32 @@
+---
+  - name: Instalação HA Proxy
+    ansible.builtin.yum:
+      name:
+      - haproxy
+      state: present
+
+  - name: Arquivo de configuracao HAProxy
+    ansible.builtin.blockinfile:
+      path: /etc/haproxy/haproxy.cfg
+      block: |
+        frontend apiserver
+        bind *:6443
+        mode tcp
+        option tcplog
+        default_backend apiserverbackend
+
+        backend apiserverbackend
+        option httpchk GET /healthz
+        http-check expect status 200
+        mode tcp
+        option ssl-hello-chk
+        balance     roundrobin
+        server SERVER01-controlp 192.168.100.5:6443 check
+        server SERVER02-controlp 192.168.100.6:6443 check
+        server SERVER03-controlp 192.168.100.7:6443 check
+
+  - name: Habilita e Reinicia Serviço HAProxy
+    ansible.builtin.systemd:
+      name: haproxy
+      enabled: true
+      state: restarted

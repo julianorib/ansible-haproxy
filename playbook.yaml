@@ -1,0 +1,14 @@
+- name: Instalar HA Proxy
+  hosts: haproxy
+  roles:
+    - haproxy
+
+- name: Instalar KeepAlived
+  hosts: haproxy
+  roles:
+    - keepalived
+
+- name: Configure Master
+  hosts: master
+  roles:
+    - master
