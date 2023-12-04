@@ -34,5 +34,5 @@ git clone https://github.com/julianorib/ansible-haproxy.git
 
 ```
 ansible-playbook -i hosts.cfg -u user --private-key suachave playbook.yaml -b
-``
+```
 
