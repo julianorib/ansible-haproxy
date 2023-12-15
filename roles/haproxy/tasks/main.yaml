@@ -22,7 +22,6 @@
         mode tcp
         option ssl-hello-chk
         balance     roundrobin
-<<<<<<< HEAD
   
   - name: Configuração do Loadbalance dos Kube-apiserver (Controlplane)
     ansible.builtin.lineinfile:
@@ -30,11 +29,6 @@
       dest: /etc/haproxy/haproxy.cfg
       line: "server {{ item }}-kubeapi {{ item }}:6443 check fall 3 rise 2"
     loop: "{{ groups['control'] }}"
-=======
-        server SERVER01-controlp 192.168.100.5:6443 check fall 3 rise 2
-        server SERVER02-controlp 192.168.100.6:6443 check fall 3 rise 2
-        server SERVER03-controlp 192.168.100.7:6443 check fall 3 rise 2
->>>>>>> 0863b315c6dd9dc752d4b8756e895f4c991c9d15
 
   - name: Habilita e Reinicia Serviço HAProxy
     ansible.builtin.systemd:
