@@ -32,23 +32,20 @@
         }
         vrrp_script check_haproxy {
           script "/usr/sbin/pidof haproxy"
-          interval 3
-          weight -2
-          fall 10
-          rise 2
+          interval 2
         }
 
         vrrp_instance VI_1 {
             state SLAVE
             interface ens192
             virtual_router_id 51
-            priority 200
+            priority 50
             authentication {
                 auth_type PASS
                 auth_pass 123456!@#
             }
             virtual_ipaddress {
-                10.209.9.253/24
+                {{ ipvirtual }}
             }
             track_script {
                 check_haproxy

@@ -1,7 +1,9 @@
-# HA Proxy & Keepalived
+# HA Proxy & Keepalived para Kube-apiserver
 
-Este projeto innstala o HA Proxy e Keepalived para criar um Proxy de alta disponibilidade.\
-Foi feito para ser utilizado em derivados do Linux Redhat.
+Este projeto instala e configura o HA Proxy e Keepalived para utilização junto com um Cluster Kubernetes (kube-apiserver). 
+
+Pode ser utilizado para outros fins também.\
+Basta modificar as regras de frontend e backend na role haproxy/tasks/main.yaml.
 
 ## Requisitos 
 
@@ -12,10 +14,8 @@ Normalmente são 2 servidores e um deles será o MASTER.
 - Keepalived 
 - master 
 
-É necessário configurar o Frontend e Backend do haproxy.\
-Foi criado para um backend de Cluster Kubernetes.
-Edite a roles\haproxy\tasks\main.yaml conforme necessidade.
-
+É necessário configurar as VARS de ipvirtual do keepalived.\
+ipvirtual:      roles/keepalived/vars/main.yaml
 
 ## Detalhes do projeto
 
@@ -24,6 +24,7 @@ Edite a roles\haproxy\tasks\main.yaml conforme necessidade.
 - Configura 1 host como master do Keepalived.
 - Reinicia e ativa os serviços na inicialização.
 
+# Como utilizar:
 
 ## Faça o clone para sua estação
 ```

@@ -1,6 +1,6 @@
 ---
   - name: Instalação HA Proxy
-    ansible.builtin.yum:
+    ansible.builtin.package:
       name:
       - haproxy
       state: present
@@ -9,6 +9,7 @@
     ansible.builtin.blockinfile:
       path: /etc/haproxy/haproxy.cfg
       block: |
+
         frontend apiserver
         bind *:6443
         mode tcp
@@ -21,9 +22,13 @@
         mode tcp
         option ssl-hello-chk
         balance     roundrobin
-        server SERVER01-controlp 192.168.100.5:6443 check
-        server SERVER02-controlp 192.168.100.6:6443 check
-        server SERVER03-controlp 192.168.100.7:6443 check
+  
+  - name: Configuração do Loadbalance dos Kube-apiserver (Controlplane)
+    ansible.builtin.lineinfile:
+      state: present
+      dest: /etc/haproxy/haproxy.cfg
+      line: "server {{ item }}-kubeapi {{ item }}:6443 check fall 3 rise 2"
+    loop: "{{ groups['control'] }}"
 
   - name: Habilita e Reinicia Serviço HAProxy
     ansible.builtin.systemd:
