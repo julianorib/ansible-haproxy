@@ -7,12 +7,10 @@ Basta modificar as regras de frontend e backend na role haproxy/tasks/main.yaml.
 
 ## Requisitos 
 
-É necessário configurar os IPs dos Hosts no arquivo hosts.cfg.\
-Normalmente são 2 servidores e um deles será o MASTER.
-
-- Haproxy 
-- Keepalived 
-- master 
+É necessário definir os IPS no arquivo hosts.cfg.\
+[master]        -> host que será o MASTER do Keepalived (é obrigatório especificar 1).
+[haproxy]       -> hosts que serão instalados e configurados o HA.
+[control]       -> hosts que serão os Control Plane do Cluster Kubernetes. (backend)
 
 É necessário configurar as VARS de ipvirtual do keepalived.\
 ipvirtual:      roles/keepalived/vars/main.yaml
