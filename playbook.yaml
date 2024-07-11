@@ -9,6 +9,6 @@
     - keepalived
 
 - name: Configure Master
-  hosts: master
+  hosts: masterha
   roles:
-    - master
+    - masterha

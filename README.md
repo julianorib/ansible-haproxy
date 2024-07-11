@@ -2,18 +2,21 @@
 
 Este projeto instala e configura o HA Proxy e Keepalived para utilização junto com um Cluster Kubernetes (kube-apiserver). 
 
-Pode ser utilizado para outros fins também.\
-Basta modificar as regras de frontend e backend na role haproxy/tasks/main.yaml.
+Pode ser utilizado para outros fins também.
 
 ## Requisitos 
 
-É necessário definir os IPS no arquivo hosts.cfg.\
-[master]        -> host que será o MASTER do Keepalived (é obrigatório especificar 1).
-[haproxy]       -> hosts que serão instalados e configurados o HA.
-[control]       -> hosts que serão os Control Plane do Cluster Kubernetes. (backend)
+Configurar Hosts e Variáveis:
 
-É necessário configurar as VARS de ipvirtual do keepalived.\
-ipvirtual:      roles/keepalived/vars/main.yaml
+| grupo hosts | descrição |
+|-------------|-----------|
+| [masterha] | host que será o MASTER do Keepalived (é obrigatório especificar 1). |
+| [haproxy]  | hosts que serão instalados e configurados o HA. |
+
+É necessário especificar a variável abaixo:
+```
+ipvirtual:
+```
 
 ## Detalhes do projeto
 
@@ -32,6 +35,6 @@ git clone https://github.com/julianorib/ansible-haproxy.git
 ## Execute o Playbook para instalação
 
 ```
-ansible-playbook -i hosts.cfg -u user --private-key suachave playbook.yaml -b
+ansible-playbook -i hosts.cfg -u user --private-key suachave playbook.yaml --extra-vars "ipvirtual=10.x.y.z" -b -K
 ```
 
